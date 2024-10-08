@@ -1,0 +1,264 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: My Shopping API
+  description: A sample shopping API for learning purposes
+basePath: /api/v1
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /products:
+    get:
+      summary: Retrieve all products
+      description: Retrieves a list of all products
+      responses:
+        200:
+          description: List of all products
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Product'
+
+  /product/{PID}:
+    get:
+      summary: Get a product by PID
+      description: Retrieves a product by its PID
+      parameters:
+        - name: PID
+          in: path
+          description: ID of the product to retrieve
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: The requested product
+          schema:
+            $ref: '#/definitions/Product'
+        404:
+          description: Product not found
+
+  /addProduct:
+    post:
+      summary: Add a new product
+      description: Adds a new product to the database
+      parameters:
+        - name: body
+          in: body
+          description: The product object to add
+          required: true
+          schema:
+            $ref: '#/definitions/NewProduct'
+      responses:
+        201:
+          description: The newly added product
+          schema:
+            $ref: '#/definitions/Product'
+        500:
+          description: Internal server error
+
+  /updateProduct/{PID}:
+    patch:
+      summary: Update a product by PID
+      description: Updates a product by its PID
+      parameters:
+        - name: PID
+          in: path
+          description: ID of the product to update
+          required: true
+          type: integer
+          format: int32
+        - name: body
+          in: body
+          description: The new product object
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateProduct'
+      responses:
+        200:
+          description: The updated product
+          schema:
+            $ref: '#/definitions/Product'
+        500:
+          description: Internal server error
+
+  /deleteProduct/{PID}:
+    delete:
+      summary: Delete a product by PID
+      description: Deletes a product by its PID
+      parameters:
+        - name: PID
+          in: path
+          description: ID of the product to delete
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Product deleted successfully
+        500:
+          description: Internal server error
+
+  /getCustomers:
+    get:
+      summary: Retrieve all customers
+      description: Retrieves a list of all customers
+      responses:
+        200:
+          description: List of all customers
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Customer'
+
+  /customer/{CID}:
+    get:
+      summary: Get a customer by CID
+      description: Retrieves a customer by its CID
+      parameters:
+        - name: CID
+          in: path
+          description: ID of the customer to retrieve
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: The requested customer
+          schema:
+            $ref: '#/definitions/Customer'
+        404:
+          description: Customer not found
+
+  /addCustomer:
+    post:
+      summary: Add a new customer
+      description: Adds a new customer to the database
+      parameters:
+        - name: body
+          in: body
+          description: The customer object to add
+          required: true
+          schema:
+            $ref: '#/definitions/NewCustomer'
+      responses:
+        201:
+          description: The newly added customer
+          schema:
+            $ref: '#/definitions/Customer'
+        500:
+          description: Internal server error
+
+  /updateCustomer/{CID}:
+    patch:
+      summary: Update a customer by CID
+      description: Updates a customer by its CID
+      parameters:
+        - name: CID
+          in: path
+          description: ID of the customer to update
+          required: true
+          type: integer
+          format: int32
+        - name: body
+          in: body
+          description: The new customer object
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateCustomer'
+      responses:
+        200:
+          description: The updated customer
+          schema:
+            $ref: '#/definitions/Customer'
+        500:
+          description: Internal server error
+
+  /deleteCustomer/{CID}:
+    delete:
+      summary: Delete a customer by CID
+      description: Deletes a customer by its CID
+      parameters:
+        - name: CID
+          in: path
+          description: ID of the customer to delete
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Customer deleted successfully
+        500:
+          description: Internal server error
+
+definitions:
+  Product:
+    type: object
+    properties:
+      PID:
+        type: integer
+        format: int32
+      name:
+        type: string
+      description:
+        type: string
+      price:
+        type: number
+        format: float
+
+  NewProduct:
+    type: object
+    required:
+      - name
+      - price
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+      price:
+        type: number
+        format: float
+
+  UpdateProduct:
+    type: object
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+      price:
+        type: number
+        format: float
+
+  Customer:
+    type: object
+    properties:
+      CID:
+        type: integer
+        format: int32
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+
+  NewCustomer:
+    type: object
+    required:
+      - firstName
+      - lastName
+      - email
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
